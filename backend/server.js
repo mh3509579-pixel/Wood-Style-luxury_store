@@ -17,9 +17,13 @@ app.use(express.static(path.join(__dirname, '..')));
 let nextProductId = 163;
 
 const DATA_DIR = path.join(__dirname, '..', 'data');
-if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+const isVercel = !!process.env.VERCEL;
+if (!isVercel) {
+  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+}
 
 function loadJSON(filename, fallback) {
+  if (isVercel) return fallback;
   const filePath = path.join(DATA_DIR, filename);
   if (fs.existsSync(filePath)) {
     return JSON.parse(fs.readFileSync(filePath, 'utf-8'));
@@ -28,12 +32,12 @@ function loadJSON(filename, fallback) {
 }
 
 function saveJSON(filename, data) {
+  if (isVercel) return;
   fs.writeFileSync(path.join(DATA_DIR, filename), JSON.stringify(data, null, 2), 'utf-8');
 }
 
 const adminUser = { username: 'adminmazharhussain', password: 'adminmaz154' };
 const orders = loadJSON('orders.json', []);
-if (!fs.existsSync(path.join(DATA_DIR, 'orders.json'))) saveJSON('orders.json', orders);
 
 const products = [
   {
