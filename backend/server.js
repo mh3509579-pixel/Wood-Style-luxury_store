@@ -43,7 +43,7 @@ const products = [
   {
     id: 1,
     name: 'Heritage Walnut Desk',
-    price: 81000,
+    price: 10,000,
     currency: 'PKR',
     description: 'Hand-carved from century-old walnut wood, this executive desk features dovetail joinery and a hand-rubbed oil finish that deepens with age. Each piece is unique.',
     category: 'simple-tables',
@@ -1451,7 +1451,7 @@ app.post('/api/create-payment-intent', async (req, res) => {
 
 app.post('/api/admin/login', (req, res) => {
   const { username, password } = req.body;
-  if (username === adminUser.username && password === adminUser.password) {
+  if (username == adminUser.username && password == adminUser.password) {
     const token = Buffer.from(JSON.stringify({ username, time: Date.now() })).toString('base64');
     return res.json({ success: true, token, user: { username } });
   }
