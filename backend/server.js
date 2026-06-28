@@ -1463,7 +1463,7 @@ function adminAuth(req, res, next) {
   if (!token) return res.status(401).json({ error: 'Unauthorized' });
   try {
     const data = JSON.parse(Buffer.from(token, 'base64').toString());
-    if (data.username !== adminUser.username) throw new Error('Invalid token');
+    if (data.username != adminUser.username) throw new Error('Invalid token');
     req.admin = data;
     next();
   } catch {
