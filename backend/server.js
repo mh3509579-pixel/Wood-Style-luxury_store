@@ -1451,7 +1451,7 @@ app.post('/api/create-payment-intent', async (req, res) => {
 
 app.post('/api/admin/login', (req, res) => {
   const { username, password } = req.body;
-  if (username == adminUser.username && password == adminUser.password) {
+  if (username === adminUser.username && password === adminUser.password) {
     const token = Buffer.from(JSON.stringify({ username, time: Date.now() })).toString('base64');
     return res.json({ success: true, token, user: { username } });
   }
@@ -1463,7 +1463,7 @@ function adminAuth(req, res, next) {
   if (!token) return res.status(401).json({ error: 'Unauthorized' });
   try {
     const data = JSON.parse(Buffer.from(token, 'base64').toString());
-    if (data.username != adminUser.username) throw new Error('Invalid token');
+    if (data.username !== adminUser.username) throw new Error('Invalid token');
     req.admin = data;
     next();
   } catch {
